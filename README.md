@@ -33,26 +33,26 @@ Usage
 Current results
 ---------------
 
-| Benchmark                        | (count) | Mode | Cnt |      Score |   |     Error | Units |
-|:-------------------------------- | -------:|:----:| ---:| ----------:|:-:| ---------:|:----- |
-| IntDictBenchmark.getClosed       |     100 | avgt |   5 |      0.639 | ± |     0.047 | us/op |
-| IntDictBenchmark.getClosed       |   10000 | avgt |   5 |    168.438 | ± |     5.173 | us/op |
-| IntDictBenchmark.getClosed       | 1000000 | avgt |   5 |  74691.046 | ± |  3658.072 | us/op |
-| IntDictBenchmark.getOpen         |     100 | avgt |   5 |      1.240 | ± |     0.589 | us/op |
-| IntDictBenchmark.getOpen         |   10000 | avgt |   5 |    222.665 | ± |   182.425 | us/op |
-| IntDictBenchmark.getOpen         | 1000000 | avgt |   5 |  84564.127 | ± | 34570.821 | us/op |
-| IntDictBenchmark.putAndGetClosed |     100 | avgt |   5 |     12.756 | ± |     2.507 | us/op |
-| IntDictBenchmark.putAndGetClosed |   10000 | avgt |   5 |   1119.816 | ± |    23.877 | us/op |
-| IntDictBenchmark.putAndGetClosed | 1000000 | avgt |   5 | 411801.810 | ± | 19206.254 | us/op |
-| IntDictBenchmark.putAndGetOpen   |     100 | avgt |   5 |     12.721 | ± |     0.392 | us/op |
-| IntDictBenchmark.putAndGetOpen   |   10000 | avgt |   5 |   1173.760 | ± |   148.190 | us/op |
-| IntDictBenchmark.putAndGetOpen   | 1000000 | avgt |   5 | 370752.864 | ± | 25351.316 | us/op |
-| IntDictBenchmark.putClosed       |     100 | avgt |   5 |      4.567 | ± |     0.476 | us/op |
-| IntDictBenchmark.putClosed       |   10000 | avgt |   5 |    633.909 | ± |    52.791 | us/op |
-| IntDictBenchmark.putClosed       | 1000000 | avgt |   5 | 242968.389 | ± | 21246.547 | us/op |
-| IntDictBenchmark.putOpen         |     100 | avgt |   5 |      3.984 | ± |     0.585 | us/op |
-| IntDictBenchmark.putOpen         |   10000 | avgt |   5 |    662.746 | ± |    37.432 | us/op |
-| IntDictBenchmark.putOpen         | 1000000 | avgt |   5 | 131030.565 | ± |  8267.218 | us/op |
+| Benchmark                        | (count) | Mode | Cnt |      Score |   |      Error | Units |
+|:-------------------------------- | -------:|:----:| ---:| ----------:|:-:| ----------:|:----- |
+| IntDictBenchmark.getClosed       |     100 | avgt |   5 |      0.499 | ± |      0.222 | us/op |
+| IntDictBenchmark.getClosed       |   10000 | avgt |   5 |    161.199 | ± |      5.456 | us/op |
+| IntDictBenchmark.getClosed       | 1000000 | avgt |   5 |  72248.870 | ± |   1630.405 | us/op |
+| IntDictBenchmark.getOpen         |     100 | avgt |   5 |      0.692 | ± |      0.002 | us/op |
+| IntDictBenchmark.getOpen         |   10000 | avgt |   5 |     98.069 | ± |      1.692 | us/op |
+| IntDictBenchmark.getOpen         | 1000000 | avgt |   5 |  28652.053 | ± |   4073.779 | us/op |
+| IntDictBenchmark.putAndGetClosed |     100 | avgt |   5 |     11.272 | ± |      0.261 | us/op |
+| IntDictBenchmark.putAndGetClosed |   10000 | avgt |   5 |   1063.505 | ± |     22.771 | us/op |
+| IntDictBenchmark.putAndGetClosed | 1000000 | avgt |   5 | 505588.231 | ± | 226029.402 | us/op |
+| IntDictBenchmark.putAndGetOpen   |     100 | avgt |   5 |     12.183 | ± |      0.457 | us/op |
+| IntDictBenchmark.putAndGetOpen   |   10000 | avgt |   5 |   1156.424 | ± |     10.007 | us/op |
+| IntDictBenchmark.putAndGetOpen   | 1000000 | avgt |   5 | 362075.122 | ± |  22836.840 | us/op |
+| IntDictBenchmark.putClosed       |     100 | avgt |   5 |      4.392 | ± |      0.062 | us/op |
+| IntDictBenchmark.putClosed       |   10000 | avgt |   5 |    647.702 | ± |    101.856 | us/op |
+| IntDictBenchmark.putClosed       | 1000000 | avgt |   5 | 249306.398 | ± |  37794.823 | us/op |
+| IntDictBenchmark.putOpen         |     100 | avgt |   5 |      4.171 | ± |      0.058 | us/op |
+| IntDictBenchmark.putOpen         |   10000 | avgt |   5 |    701.909 | ± |     22.678 | us/op |
+| IntDictBenchmark.putOpen         | 1000000 | avgt |   5 | 142789.894 | ± |   5158.147 | us/op |
 
 
 ### Description

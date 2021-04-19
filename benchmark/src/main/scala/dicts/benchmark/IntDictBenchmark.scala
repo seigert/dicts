@@ -28,7 +28,7 @@ class IntDictBenchmark {
 
   @Setup(Level.Trial)
   def doSetup(): Unit = {
-    val keys0   = Array.range(0, 1 << 20)
+    val keys0   = Array.fill(1 << 20)(Random.nextInt())
     val values0 = Array.fill(keys0.length)(Random.shuffle(alphabet).toString())
 
     keys0.indices.foreach { i =>
