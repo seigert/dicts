@@ -33,35 +33,58 @@ Usage
 Current results
 ---------------
 
-| Benchmark                        | (count) | Mode | Cnt |      Score |   |      Error | Units |
-|:-------------------------------- | -------:|:----:| ---:| ----------:|:-:| ----------:|:----- |
-| IntDictBenchmark.getClosed       |     100 | avgt |   5 |      0.499 | ± |      0.222 | us/op |
-| IntDictBenchmark.getClosed       |   10000 | avgt |   5 |    161.199 | ± |      5.456 | us/op |
-| IntDictBenchmark.getClosed       | 1000000 | avgt |   5 |  72248.870 | ± |   1630.405 | us/op |
-| IntDictBenchmark.getOpen         |     100 | avgt |   5 |      0.692 | ± |      0.002 | us/op |
-| IntDictBenchmark.getOpen         |   10000 | avgt |   5 |     98.069 | ± |      1.692 | us/op |
-| IntDictBenchmark.getOpen         | 1000000 | avgt |   5 |  28652.053 | ± |   4073.779 | us/op |
-| IntDictBenchmark.putAndGetClosed |     100 | avgt |   5 |     11.272 | ± |      0.261 | us/op |
-| IntDictBenchmark.putAndGetClosed |   10000 | avgt |   5 |   1063.505 | ± |     22.771 | us/op |
-| IntDictBenchmark.putAndGetClosed | 1000000 | avgt |   5 | 505588.231 | ± | 226029.402 | us/op |
-| IntDictBenchmark.putAndGetOpen   |     100 | avgt |   5 |     12.183 | ± |      0.457 | us/op |
-| IntDictBenchmark.putAndGetOpen   |   10000 | avgt |   5 |   1156.424 | ± |     10.007 | us/op |
-| IntDictBenchmark.putAndGetOpen   | 1000000 | avgt |   5 | 362075.122 | ± |  22836.840 | us/op |
-| IntDictBenchmark.putClosed       |     100 | avgt |   5 |      4.392 | ± |      0.062 | us/op |
-| IntDictBenchmark.putClosed       |   10000 | avgt |   5 |    647.702 | ± |    101.856 | us/op |
-| IntDictBenchmark.putClosed       | 1000000 | avgt |   5 | 249306.398 | ± |  37794.823 | us/op |
-| IntDictBenchmark.putOpen         |     100 | avgt |   5 |      4.171 | ± |      0.058 | us/op |
-| IntDictBenchmark.putOpen         |   10000 | avgt |   5 |    701.909 | ± |     22.678 | us/op |
-| IntDictBenchmark.putOpen         | 1000000 | avgt |   5 | 142789.894 | ± |   5158.147 | us/op |
+__Note__: These results use load factor of `1.0` (equals `capacity - 1` in code), which is totally unreal and
+synthetic setting.
+
+| Benchmark                                 | (count) | Mode | Cnt |      Score |   |     Error | Units |
+|:----------------------------------------- | -------:|:----:| ---:| ----------:|:-:| ---------:|:----- |
+| IntDictBenchmark.getClosed                |     127 | avgt |   5 |      0.989 | ± |     0.010 | us/op |
+| IntDictBenchmark.getClosed                |   16535 | avgt |   5 |    357.963 | ± |   140.879 | us/op |
+| IntDictBenchmark.getClosed                | 1048575 | avgt |   5 |  83261.233 | ± |  5591.723 | us/op |
+| IntDictBenchmark.getOpen                  |     127 | avgt |   5 |      2.313 | ± |     0.018 | us/op |
+| IntDictBenchmark.getOpen                  |   16535 | avgt |   5 |    356.559 | ± |   102.913 | us/op |
+| IntDictBenchmark.getOpen                  | 1048575 | avgt |   5 |  25792.847 | ± |  1204.984 | us/op |
+| IntDictBenchmark.missClosed               |     127 | avgt |   5 |      0.932 | ± |     0.009 | us/op |
+| IntDictBenchmark.missClosed               |   16535 | avgt |   5 |    437.232 | ± |    23.184 | us/op |
+| IntDictBenchmark.missClosed               | 1048575 | avgt |   5 | 111428.388 | ± |  1506.839 | us/op |
+| IntDictBenchmark.missOpen                 |     127 | avgt |   5 |     12.692 | ± |     0.375 | us/op |
+| IntDictBenchmark.missOpen                 |   16535 | avgt |   5 |    661.002 | ± |    93.186 | us/op |
+| IntDictBenchmark.missOpen                 | 1048575 | avgt |   5 | 108710.498 | ± |  5165.610 | us/op |
+| IntDictBenchmark.putClosed                |     127 | avgt |   5 |      4.992 | ± |     0.043 | us/op |
+| IntDictBenchmark.putClosed                |   16535 | avgt |   5 |   1019.516 | ± |    24.240 | us/op |
+| IntDictBenchmark.putClosed                | 1048575 | avgt |   5 | 241567.732 | ± |  9732.676 | us/op |
+| IntDictBenchmark.putOpen                  |     127 | avgt |   5 |      4.442 | ± |     0.046 | us/op |
+| IntDictBenchmark.putOpen                  |   16535 | avgt |   5 |   1153.167 | ± |    33.175 | us/op |
+| IntDictBenchmark.putOpen                  | 1048575 | avgt |   5 | 197239.626 | ± |  1403.676 | us/op |
+| IntDictBenchmark.putAllocatedClosed       |     127 | avgt |   5 |      2.568 | ± |     0.135 | us/op |
+| IntDictBenchmark.putAllocatedClosed       |   16535 | avgt |   5 |    639.909 | ± |    70.176 | us/op |
+| IntDictBenchmark.putAllocatedClosed       | 1048575 | avgt |   5 | 201603.683 | ± | 46738.860 | us/op |
+| IntDictBenchmark.putAllocatedOpen         |     127 | avgt |   5 |      3.332 | ± |     0.057 | us/op |
+| IntDictBenchmark.putAllocatedOpen         |   16535 | avgt |   5 |    772.453 | ± |   121.198 | us/op |
+| IntDictBenchmark.putAllocatedOpen         | 1048575 | avgt |   5 | 164735.061 | ± |  1855.963 | us/op |
+| IntDictBenchmark.putAndGetClosed          |     127 | avgt |   5 |      8.139 | ± |     0.090 | us/op |
+| IntDictBenchmark.putAndGetClosed          |   16535 | avgt |   5 |   2148.704 | ± |    47.109 | us/op |
+| IntDictBenchmark.putAndGetClosed          | 1048575 | avgt |   5 | 452310.557 | ± | 12042.556 | us/op |
+| IntDictBenchmark.putAndGetOpen            |     127 | avgt |   5 |      6.905 | ± |     0.268 | us/op |
+| IntDictBenchmark.putAndGetOpen            |   16535 | avgt |   5 |   1915.632 | ± |    38.699 | us/op |
+| IntDictBenchmark.putAndGetOpen            | 1048575 | avgt |   5 | 343079.123 | ± | 11880.949 | us/op |
+| IntDictBenchmark.putAndGetAllocatedClosed |     127 | avgt |   5 |      5.491 | ± |     0.329 | us/op |
+| IntDictBenchmark.putAndGetAllocatedClosed |   16535 | avgt |   5 |   1542.745 | ± |   735.734 | us/op |
+| IntDictBenchmark.putAndGetAllocatedClosed | 1048575 | avgt |   5 | 340482.744 | ± | 29770.310 | us/op |
+| IntDictBenchmark.putAndGetAllocatedOpen   |     127 | avgt |   5 |     11.563 | ± |     0.099 | us/op |
+| IntDictBenchmark.putAndGetAllocatedOpen   |   16535 | avgt |   5 |   1852.522 | ± |   619.203 | us/op |
+| IntDictBenchmark.putAndGetAllocatedOpen   | 1048575 | avgt |   5 | 333182.320 | ± |  1811.787 | us/op |
 
 
 ### Description
 
-- `get*(count)` -- gets `count` of random keys from pre-generated dictionary of 2^20 entries;
+- `get*(count)` -- gets `count` of random existing keys from pre-generated dictionary of 2^20 entries;
+- `miss*(count)` -- gets `count` of random missing keys from pre-generated dictionary of 2^20 entries;
 - `put*(count)` -- put into empty dict `count` of key-value pair from pre-generated arrays of 2^20 elements;
 - `putAndGet*(count)` -- selects `count` of keys from pregenerated array, 
   shuffles them and puts 3/4 of them into empty dict, then shuffles again 
-  and gets 3/4 of keys.
+  and gets 3/4 of keys;
+- `*Allocated*` -- the same as `put*|putAndGet*` but with capacity set to `count`.
 
 ### System specs:
 - CPU: `2,3 GHz 8-Core Intel Core i9`

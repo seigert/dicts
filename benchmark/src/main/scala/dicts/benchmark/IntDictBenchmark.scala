@@ -16,34 +16,38 @@ import scala.util.Random
 class IntDictBenchmark {
 
   val alphabet: String = ('a' to 'z').map(c => s"$c${c.toUpper}").mkString
+  val random: Random   = new Random(IntDict.IntPhi)
 
-  @Param(Array("100", "10000", "1000000"))
+  val sample: Int = 1 << 20
+  val maxKey: Int = 2 * sample
+
+  @Param(Array("127", "16535", "1048575"))
   var count: Int = 0
 
-  private var keys: ArraySeq[Int]      = ArraySeq.empty
-  private var values: ArraySeq[String] = ArraySeq.empty
+  private val keys: ArraySeq[Int] = ArraySeq.fill(sample)(random.nextInt(maxKey) - maxKey / 2)
+  private val values: ArraySeq[String] = ArraySeq.fill(sample)(random.shuffle(alphabet).toString())
+  private val except: ArraySeq[Int] = keys.map(_ + maxKey)
 
-  private val closedDict: IntClosedHashDict[String] = IntClosedHashDict.empty
-  private val openDict: IntOpenHashDict[String]     = IntOpenHashDict.empty
+  private var ids: ArraySeq[Int]                    = ArraySeq.empty
+  private var closedDict: IntClosedHashDict[String] = IntClosedHashDict.empty
+  private var openDict: IntOpenHashDict[String]     = IntOpenHashDict.empty
 
   @Setup(Level.Trial)
-  def doSetup(): Unit = {
-    val keys0   = Array.fill(1 << 20)(Random.nextInt())
-    val values0 = Array.fill(keys0.length)(Random.shuffle(alphabet).toString())
+  def doTrialSetup(): Unit = {
+    closedDict = IntClosedHashDict(count)
+    openDict = IntOpenHashDict(count)
 
-    keys0.indices.foreach { i =>
-      closedDict.put(keys0(i), values0(i))
-      openDict.put(keys0(i), values0(i))
+    ids = ArraySeq.fill(count)(random.nextInt(keys.length))
+    ids.foreach { i =>
+      closedDict.put(keys(i), values(i))
+      openDict.put(keys(i), values(i))
     }
-
-    keys = ArraySeq.unsafeWrapArray(keys0)
-    values = ArraySeq.unsafeWrapArray(values0)
   }
 
   @inline
   private def get(dict: IntDict[String]): Int = {
     var res = 0
-    (0 to count).foreach { i =>
+    ids.foreach { i =>
       val value = dict.get(keys(i))
       if (value.isDefined) res += 1
     }
@@ -57,9 +61,25 @@ class IntDictBenchmark {
   def getOpen(): Int = get(openDict)
 
   @inline
+  private def miss(dict: IntDict[String]): Int = {
+    var res = 0
+    ids.foreach { i =>
+      val value = dict.get(except(i))
+      if (value.isDefined) res += 1
+    }
+    res
+  }
+
+  @Benchmark
+  def missClosed(): Int = miss(closedDict)
+
+  @Benchmark
+  def missOpen(): Int = miss(openDict)
+
+  @inline
   private def put(dict: IntDict[String]): Int = {
     var res = 0
-    (0 to count).foreach { i =>
+    ids.foreach { i =>
       val value = dict.put(keys(i), values(i))
       if (value.isEmpty) res += 1
     }
@@ -72,17 +92,20 @@ class IntDictBenchmark {
   @Benchmark
   def putOpen(): Int = put(IntOpenHashDict.empty)
 
+  @Benchmark
+  def putAllocatedClosed(): Int = put(IntClosedHashDict(count))
+
+  @Benchmark
+  def putAllocatedOpen(): Int = put(IntOpenHashDict(count))
+
   @inline
   private def putAndGet(dict: IntDict[String]): Int = {
-    val all = keys.view.take(count)
-    val put = ArraySeq.from(Random.shuffle(all).take(3 * count / 4))
-    val get = ArraySeq.from(Random.shuffle(all).take(3 * count / 4))
-
     var res = 0
-    put.indices.foreach { i =>
-      dict.put(put(i), values(i))
+    ids.foreach { i =>
+      dict.put(keys(i), values(i))
     }
-    get.foreach { key =>
+    ids.iterator.zipWithIndex.foreach { case (i, j) =>
+      val key   = if (j % 2 == 0) keys(i) else except(i)
       val value = dict.get(key)
       if (value.isDefined) res += 1
     }
@@ -94,5 +117,11 @@ class IntDictBenchmark {
 
   @Benchmark
   def putAndGetOpen(): Int = putAndGet(IntOpenHashDict.empty)
+
+  @Benchmark
+  def putAndGetAllocatedClosed(): Int = putAndGet(IntClosedHashDict(count))
+
+  @Benchmark
+  def putAndGetAllocatedOpen(): Int = putAndGet(IntOpenHashDict(count))
 
 }

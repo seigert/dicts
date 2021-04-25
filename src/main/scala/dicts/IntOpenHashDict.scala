@@ -6,13 +6,16 @@ final class IntOpenHashDict[V: ClassTag](initialCapacity: Int, loadFactor: Doubl
   require(initialCapacity >= 1)
   require(loadFactor > 0)
 
-  private var size: Int             = 0
-  private var (capacity, mask, max) = IntDict.numbers(initialCapacity, loadFactor)
+  private var size0: Int             = 0
+  private var (capacity0, mask, max) = IntDict.numbers(initialCapacity, loadFactor)
 
-  private var keys: Array[Int] = new Array[Int](capacity)
-  private var values: Array[V] = new Array[V](capacity)
+  private var keys: Array[Int] = new Array[Int](capacity0)
+  private var values: Array[V] = new Array[V](capacity0)
 
   private var zero: Option[V] = None
+
+  def capacity: Int = capacity0
+  def size: Int     = size0
 
   def get(key: Int): Option[V] = if (key != 0) {
     val index = getKeyIndex(key)
@@ -21,22 +24,21 @@ final class IntOpenHashDict[V: ClassTag](initialCapacity: Int, loadFactor: Doubl
   } else zero
 
   def put(key: Int, value: V): Option[V] = {
-    val result = put0(key, value)
     ensureCapacity()
-    result
+    put0(key, value)
   }
 
-  private def ensureCapacity(): Unit = if (size > max) {
-    val (cpc, msk, mx) = IntDict.numbers(capacity, loadFactor)
-    capacity = cpc
+  private def ensureCapacity(): Unit = if (size0 > max) {
+    val (cpc, msk, mx) = IntDict.numbers(capacity0, loadFactor)
+    capacity0 = cpc
     mask = msk
     max = mx
 
     val oldKeys   = keys
     val oldValues = values
 
-    keys = new Array[Int](capacity)
-    values = new Array[V](capacity)
+    keys = new Array[Int](capacity0)
+    values = new Array[V](capacity0)
 
     oldKeys.indices.foreach { i =>
       val key = oldKeys(i)
@@ -78,7 +80,7 @@ final class IntOpenHashDict[V: ClassTag](initialCapacity: Int, loadFactor: Doubl
     }
 
     if (oldValue.isEmpty) {
-      size += 1
+      size0 += 1
     }
 
     oldValue
@@ -87,8 +89,9 @@ final class IntOpenHashDict[V: ClassTag](initialCapacity: Int, loadFactor: Doubl
 }
 
 object IntOpenHashDict {
-  def empty[V: ClassTag]: IntOpenHashDict[V] = apply(IntDict.DefaultCapacity, IntDict.DefaultLoadFactor)
+  def empty[V: ClassTag]: IntOpenHashDict[V] = apply(IntDict.DefaultCapacity)
 
+  def apply[V: ClassTag](capacity: Int): IntOpenHashDict[V] = apply(capacity, IntDict.DefaultLoadFactor)
   def apply[V: ClassTag](capacity: Int, loadFactor: Double): IntOpenHashDict[V] =
     new IntOpenHashDict[V](capacity, loadFactor)
 }

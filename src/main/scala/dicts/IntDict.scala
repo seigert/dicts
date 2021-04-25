@@ -1,6 +1,8 @@
 package dicts
 
 trait IntDict[V] {
+  def capacity: Int
+  def size: Int
 
   /** Returns value by key if available. */
   def get(key: Int): Option[V]
@@ -17,7 +19,7 @@ object IntDict {
   val IntPhi: Int = 0x9e3779b9
 
   val DefaultCapacity: Int      = 16
-  val DefaultLoadFactor: Double = 0.95
+  val DefaultLoadFactor: Double = 1.0
 
   def mix(i: Int): Int = {
     val h = i * IntPhi

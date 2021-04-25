@@ -6,28 +6,30 @@ final class IntClosedHashDict[V](initialCapacity: Int, loadFactor: Double) exten
 
   import IntClosedHashDict.Node
 
-  private var size: Int             = 0
-  private var (capacity, mask, max) = IntDict.numbers(initialCapacity, loadFactor)
+  private var size0: Int             = 0
+  private var (capacity0, mask, max) = IntDict.numbers(initialCapacity, loadFactor)
 
-  private var nodes: Array[Node[V]] = new Array[Node[V]](capacity)
+  private var nodes: Array[Node[V]] = new Array[Node[V]](capacity0)
+
+  def capacity: Int = capacity0
+  def size: Int     = size0
 
   def get(key: Int): Option[V] = Option(get0(key)).map(_.value)
 
   def put(key: Int, value: V): Option[V] = {
-    val result = put0(key, value)
     ensureCapacity()
-    result
+    put0(key, value)
   }
 
-  private def ensureCapacity(): Unit = if (size > max) {
-    val (cpc, msk, mx) = IntDict.numbers(capacity, loadFactor)
-    capacity = cpc
+  private def ensureCapacity(): Unit = if (size0 >= max) {
+    val (cpc, msk, mx) = IntDict.numbers(capacity0, loadFactor)
+    capacity0 = cpc
     mask = msk
     max = mx
 
     val oldNodes = nodes
 
-    nodes = new Array(capacity)
+    nodes = new Array(capacity0)
 
     oldNodes.foreach { head =>
       var node = head
@@ -52,7 +54,7 @@ final class IntClosedHashDict[V](initialCapacity: Int, loadFactor: Double) exten
     if (node eq null) {
       node = new Node(key, value)
       nodes(index) = node
-      size += 1
+      size0 += 1
     } else {
       var prev: Node[V] = null
       while ((node ne null) && node.key != key) {
@@ -62,7 +64,7 @@ final class IntClosedHashDict[V](initialCapacity: Int, loadFactor: Double) exten
       if (node eq null) {
         node = new Node(key, value)
         prev.next = node
-        size += 1
+        size0 += 1
       }
     }
 
@@ -76,8 +78,9 @@ final class IntClosedHashDict[V](initialCapacity: Int, loadFactor: Double) exten
 object IntClosedHashDict {
   final private class Node[V](val key: Int, var value: V, var next: Node[V] = null)
 
-  def empty[V]: IntClosedHashDict[V] = apply(IntDict.DefaultCapacity, IntDict.DefaultLoadFactor)
+  def empty[V]: IntClosedHashDict[V] = apply(IntDict.DefaultCapacity)
 
+  def apply[V](capacity: Int): IntClosedHashDict[V] = apply(capacity, IntDict.DefaultLoadFactor)
   def apply[V](capacity: Int, loadFactor: Double): IntClosedHashDict[V] =
     new IntClosedHashDict[V](capacity, loadFactor)
 }
